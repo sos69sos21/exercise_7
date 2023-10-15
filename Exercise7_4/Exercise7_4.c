@@ -10,11 +10,13 @@ struct WordCount{
     struct WordCount* right;
 };
 
-// function to insert a word into the binary search treee
+// function to insert a word into the binary search tree
 struct WordCount* insert(struct WordCount* root, const char* word){
+    int cmp;
+
     if(root == NULL){
         // Create a new node if the tree is empty
-        struct WordCount* newNode = (struct WordCount*)malloc(sizeof(struct WordCount));
+        struct WordCount *newNode = (struct WordCount*)malloc(sizeof(struct WordCount));
             if(root == NULL){
                 struct WordCount *newNode = (struct WordCount*)malloc(sizeof(struct WordCount));
                 strcpy(newNode->word, word);
@@ -24,7 +26,7 @@ struct WordCount* insert(struct WordCount* root, const char* word){
             }
     }
 
-    int cmp = strcmp(word, root->word);
+    cmp = strcmp(word, root->word);
     if(cmp < 0){
         root->left = insert(root->left, word); // insert into the left subtree
     }
@@ -49,11 +51,13 @@ void displayAllWords(struct WordCount *root){
 
 // function to search for a specific word
 int searchWord(struct WordCount *root, const char* word){
+    int cmp;
+
     if(root == NULL){  // word not found
         return 0;
     }
 
-    int cmp = strcmp(word, root->word);
+    cmp = strcmp(word, root->word);
     if(cmp < 0){
         return searchWord(root->left, word); // search in left subtree
     }
@@ -66,11 +70,11 @@ int searchWord(struct WordCount *root, const char* word){
 }
 
 // function to free the memory used by the binary search tree
-void freeTree(struct WordCount *root){
+void clearTree(struct WordCount *root){
     if(root != NULL){
         // traversal to free memory
-        freeTree(root->left);
-        freeTree(root->right);
+        clearTree(root->left);
+        clearTree(root->right);
         free(root);
     }
 }
@@ -92,10 +96,11 @@ int main(){
     }
 
     fclose(fp);
-    int choice;
+
+    int choice = 0;
     char SearchWordInput[50];
 
-    do{
+    while(choice != 3){
         // display menu options
         printf("Options Menu:\n");
         printf("   1. List Words\n");
@@ -112,7 +117,7 @@ int main(){
                 break;
             case 2:
                 // search for a specific word
-                printf("Enter the word to search: ");
+                printf("Which Word Do You Want Me to Find: ");
                 scanf("%s", SearchWordInput);
                 printf("'%s' occurred %d times in the file.\n", SearchWordInput, searchWord(root, SearchWordInput));
                 break;
@@ -123,9 +128,9 @@ int main(){
                 printf("\nInvalid Choice.  Select Between 1-3 Only, Thanks!!\n");
         }
 
-    }while(choice != 3);
+    };
 
-    freeTree(root);
+    clearTree(root);
 
     return 0;
 }
