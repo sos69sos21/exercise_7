@@ -120,7 +120,7 @@ int main(){
                 // quit the program
                 break;
             default:
-                printf("Invalid Choice.  Select Between 1-3 Only, Thanks!!");
+                printf("\nInvalid Choice.  Select Between 1-3 Only, Thanks!!\n");
         }
 
     }while(choice != 3);
