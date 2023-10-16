@@ -1,18 +1,16 @@
-CC=gcc
 
-CFLAGS+=-std=c11 -Wall -O2 -Warray-bounds
+SRCS = $(wildcard Exercise7_?.c)
 
-EXECUTABLE=films
+PROGS = $(patsubst %.c,%,$(SRCS))
 
-OBJECTS=list.o
+CFLAGS+=-Wall -g
 
-all: $(OBJECTS) films.c
-	$(CC) $(CFLAGS) $(OBJECTS) films.c -o $(EXECUTABLE)
+all: $(PROGS)
 
-.c.o:
-	$(CC) $(CFLAGS) -c $<
+%: %.c
+	$(CC) $(CFLAGS)  -o $@ $< -lm
 
 clean:
 	rm -f *~
-	rm -f *.o
-	rm -f $(EXECUTABLE)
+	rm -f $(PROGS)
+

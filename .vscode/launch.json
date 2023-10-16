@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/sosa/Desktop/UA_Folder/exercise_7/Exercise7_4",
-      "program": "/Users/sosa/Desktop/UA_Folder/exercise_7/Exercise7_4/build/Debug/outDebug"
+      "cwd": "/Users/sosa/Desktop/UA_Folder/exercise_7/Exercise7_1",
+      "program": "/Users/sosa/Desktop/UA_Folder/exercise_7/Exercise7_1/build/Debug/outDebug"
     }
   ]
 }

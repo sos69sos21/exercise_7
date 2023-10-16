@@ -1,59 +1,74 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-#define STACK_SIZE 100
+#define MAX_STACK_SIZE 100
 
-// Define a stack structure
-struct Stack {
-    char data[STACK_SIZE];
-    int top;
-};
+// Create struct stack of integers with a max size (Max_stack_size and it
+// keeps track of the length of the stack in the stackLength variable
+typedef struct{
+    int stackLength;
+    int stackElements[MAX_STACK_SIZE];
+} CharStack;
 
-// Function to push a character onto the stack
-void push(struct Stack *stack, char c) {
-    if (stack->top < STACK_SIZE - 1) {
-        stack->data[++stack->top] = c;
-    } else {
-        printf("Stack is full. Cannot push character: %c\n", c);
-    }
-}
+int Push(int c, CharStack *charStack);
+int Pop(CharStack *charStack);
 
-// Function to pop a character from the stack
-char pop(struct Stack *stack) {
-    if (stack->top >= 0) {
-        return stack->data[stack->top--];
-    } else {
-        return '\0'; // Return null character to indicate an empty stack
-    }
-}
+int main(int argc, char **argv){
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s test.txt\n", argv[0]);
-        return 1;
+    FILE *fp;
+    char ch;
+
+    CharStack charStack;
+    charStack.stackLength = 0;
+
+    // open file using CLI command
+    fp = fopen(argv[1], "r");
+    if (fp == NULL) {
+        perror("Unable to open file");
+        return -1;
     }
 
-    FILE *file = fopen(argv[1], "r");
-    if (file == NULL) {
-        perror("Error opening file");
-        return 1;
+    // read characters from a file then pushes them onto a stack
+    // then pops and prints in reverse order
+    while ((ch = fgetc(fp)) != EOF)
+    {
+        Push(ch, &charStack);
     }
 
-    struct Stack stack;
-    stack.top = -1; // Initialize the top of the stack
-
-    char c;
-    while ((c = fgetc(file)) != EOF) {
-        push(&stack, c);
+    int stackLength = charStack.stackLength;
+    for(int i = 0; i < stackLength; i++){
+        printf("%c", Pop(&charStack));
     }
 
-    fclose(file);
-
-    printf("Contents of the file in reverse order:\n");
-    while (stack.top >= 0) {
-        printf("%c", pop(&stack));
-    }
     printf("\n");
-
+    fclose(fp);
     return 0;
+}
+
+// push function to add elements to the stack
+// checks for space in the stack
+// then adds element and updates length
+// error of -1 if already full
+int Push(int c, CharStack *charStack){
+    if(charStack->stackLength < MAX_STACK_SIZE){
+        charStack->stackElements[charStack->stackLength] = c;
+        charStack->stackLength++;
+        return 0;
+    }
+    return -1;
+}
+
+// removes top element from stack
+// check to see if stack is empty
+// updates stack length
+// if empty, it returns a -1
+int Pop(CharStack *charStack){
+    if(charStack->stackLength < 1){
+        return -1;
+    }
+    int element = charStack->stackElements[charStack->stackLength-1];
+    charStack->stackElements[charStack->stackLength-1] = 0;
+    charStack->stackLength--;
+    return element;
 }
