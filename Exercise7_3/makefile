@@ -5,8 +5,8 @@ LIBS = -lm
 
 all: $(PROGS)
 
-%: %.c stack.c
-	$(CC) $(CFLAGS) -o $@ $< stack.c $(LIBS)
+# %: %.c stack.c
+# 	$(CC) $(CFLAGS) -o $@ $< stack.c $(LIBS)
 
 clean:
 	rm -f *~
